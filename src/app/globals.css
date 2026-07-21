@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================================
+   TripMind design tokens.
+   The palette lives here as HSL channels so the whole product can be
+   re-themed from one place (also mirrored in src/config/brand.ts for JS use).
+   ========================================================================= */
+@layer base {
+  :root {
+    --background: 40 33% 98%; /* warm off-white */
+    --foreground: 222 32% 16%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 32% 16%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 32% 16%;
+
+    /* Deep navy */
+    --primary: 216 64% 19%;
+    --primary-foreground: 40 33% 98%;
+
+    /* Turquoise / sky-blue */
+    --secondary: 190 82% 40%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Warm orange */
+    --accent: 26 92% 54%;
+    --accent-foreground: 0 0% 100%;
+
+    --muted: 214 28% 95%;
+    --muted-foreground: 215 16% 42%;
+
+    --success: 152 54% 38%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 48%;
+    --warning-foreground: 30 40% 12%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 24% 89%;
+    --input: 214 24% 89%;
+    --ring: 190 82% 40%;
+
+    --radius: 0.9rem;
+  }
+
+  .dark {
+    --background: 220 40% 8%;
+    --foreground: 210 30% 96%;
+
+    --card: 220 38% 11%;
+    --card-foreground: 210 30% 96%;
+
+    --popover: 220 38% 11%;
+    --popover-foreground: 210 30% 96%;
+
+    --primary: 205 90% 62%;
+    --primary-foreground: 220 45% 10%;
+
+    --secondary: 190 70% 45%;
+    --secondary-foreground: 220 45% 10%;
+
+    --accent: 26 92% 56%;
+    --accent-foreground: 30 40% 10%;
+
+    --muted: 220 30% 18%;
+    --muted-foreground: 214 18% 66%;
+
+    --success: 152 50% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 90% 55%;
+    --warning-foreground: 30 40% 12%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 25% 22%;
+    --input: 220 25% 22%;
+    --ring: 205 90% 62%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Arabic numerals should stay in the Latin form for prices/dates readability
+     but the font handles Arabic glyphs. Keep tabular figures for numbers. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Respect reduced-motion preferences. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Logical-property helpers so spacing flips automatically between RTL/LTR. */
+  .container-page {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .glass-header {
+    background-color: hsl(var(--background) / 0.8);
+    backdrop-filter: saturate(180%) blur(10px);
+  }
+
+  .hero-gradient {
+    background:
+      radial-gradient(60% 60% at 80% 10%, hsl(var(--secondary) / 0.18), transparent 70%),
+      radial-gradient(50% 50% at 10% 20%, hsl(var(--accent) / 0.12), transparent 70%),
+      linear-gradient(180deg, hsl(var(--primary)) 0%, hsl(216 64% 15%) 100%);
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-muted;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--foreground) / 0.06),
+      transparent
+    );
+    animation: shimmer 1.6s infinite;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Print styles for the shareable itinerary. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+}
